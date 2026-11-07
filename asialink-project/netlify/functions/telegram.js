@@ -72,21 +72,30 @@ async function notify(text) {
   } catch (e) { console.error("notify failed", e); }
 }
 
+/* CHANNEL можно писать как @name, name, t.me/name или https://t.me/name — всё приводим к виду name */
+const normChannel = (v) => String(v || "").trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^t\.me\//, "").replace(/^@/, "");
+
 function allowedChat(chat) {
-  const want = (process.env.CHANNEL || "").trim().toLowerCase();
+  const want = normChannel(process.env.CHANNEL);
   if (!want) return false; // без настройки CHANNEL не принимаем ничего
-  return String(chat.id) === want || (chat.username && "@" + chat.username.toLowerCase() === want);
+  return String(chat.id) === want || (!!chat.username && chat.username.toLowerCase() === want);
 }
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return { statusCode: 200, body: "ok" };
-  if (!process.env.WEBHOOK_SECRET || event.headers["x-telegram-bot-api-secret-token"] !== process.env.WEBHOOK_SECRET)
+  if (!process.env.WEBHOOK_SECRET || event.headers["x-telegram-bot-api-secret-token"] !== process.env.WEBHOOK_SECRET) {
+    console.log("REJECTED: secret_token не совпадает с WEBHOOK_SECRET");
     return { statusCode: 401, body: "unauthorized" };
+  }
 
   let u;
   try { u = JSON.parse(event.body); } catch (e) { return { statusCode: 200, body: "bad json" }; }
   const m = u.channel_post || u.edited_channel_post;
-  if (!m || !allowedChat(m.chat)) return { statusCode: 200, body: "skip" };
+  if (!m) { console.log("SKIP: это не пост канала, ключи обновления:", Object.keys(u).join(",")); return { statusCode: 200, body: "skip" }; }
+  if (!allowedChat(m.chat)) {
+    console.log("SKIP: канал не совпадает. Пришло: id=" + m.chat.id + " username=" + (m.chat.username || "нет") + "; в CHANNEL записано: " + (process.env.CHANNEL || "(пусто)"));
+    return { statusCode: 200, body: "skip" };
+  }
 
   const text = m.caption || m.text || "";
   const f = parse(text);
@@ -127,6 +136,7 @@ exports.handler = async (event) => {
     return { statusCode: 200, body: "error" };
   }
 
+  console.log("SAVED:", JSON.stringify(result));
   if (result.hasFields) {
     if (result.name && result.price > 0) await notify(`✅ На сайте: ${result.name} — ${result.price.toLocaleString("ru-RU")} сум`);
     else if (result.name) await notify(`⚠️ «${result.name}» не показан на сайте: не удалось определить цену. Проверьте строку «Цена:» (например 45 ¥ или 150000 сум) и курс CNY_TO_UZS.`);
