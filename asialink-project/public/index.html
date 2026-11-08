@@ -127,6 +127,7 @@ input:focus{outline:2px solid var(--accent);border-color:transparent}
 .fab{position:fixed;right:16px;bottom:20px;width:52px;height:52px;border-radius:50%;background:#229ed9;color:#fff;display:grid;place-items:center;font-size:1.4rem;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:8;border:0}.fab:hover{transform:scale(1.08)}
 .fab.up{bottom:82px;background:var(--text);color:var(--bg);opacity:0;pointer-events:none;transform:translateY(10px)}.fab.up.show{opacity:1;pointer-events:auto;transform:none}
 .fcols{max-width:1120px;margin:0 auto 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;text-align:left;line-height:1.9}footer a{color:var(--accent)}
+.pickup{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:10px 14px;margin:0 0 10px;font-size:.95rem}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:999px;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;font-size:.92rem}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.reveal.in{opacity:1;transform:none}
@@ -219,7 +220,8 @@ const CFG = {
   adminEmail: "renatkazakhbaev@gmail.com",   // только этот Google-аккаунт видит кнопку «Админ»
   bonusFrom:  500000,                 // от какой суммы заказа действует скидка
   bonusPercent: 5,                    // размер скидки в % (0 — отключить)
-  promos: {"ASIA5": 5},               // промокоды: "КОД": скидка в %. Измените или удалите
+  pickupPoint: "Ташкент, Юнусабадский район, 11-й квартал, 16",   // пункт выдачи (адрес для всех заказов)
+  promos: {"IKRAM20": 20},            // промокоды: "КОД": скидка в %. Несколько кодов — через запятую
   hideSamples: true                   // true = когда появятся товары из канала, тестовые товары прячутся
 };
 
@@ -446,7 +448,7 @@ function payForm(){
   if(!Object.keys(cart).length) return;
   modal(`<h2>Оплата заказа</h2><p>Сумма к оплате сейчас: <b>${money(total())}</b></p>
   <input type="tel" id="ph" placeholder="Телефон для связи: +998 90 123 45 67">
-  <input type="text" id="ad" placeholder="Адрес доставки (город, улица, дом)">
+  <div class="pickup">📍 <b>Пункт выдачи</b><br>${esc(CFG.pickupPoint)}</div>
   <div class="cardnum"><small>Переведите точную сумму на карту</small><b>${esc(CFG.cardNumber)}</b><small>${esc(CFG.cardOwner)}</small>
   <div style="margin-top:8px"><button class="btn ghost" id="copy">Скопировать номер</button></div></div>
   <div class="notice" style="margin:0 0 6px">${NOTICE}</div>
@@ -454,9 +456,8 @@ function payForm(){
   <div class="err" id="ae"></div><button class="btn red full" id="paid">Я оплатил(а)</button>`);
   $("copy").onclick = async () => { try { await navigator.clipboard.writeText(CFG.cardNumber.replace(/\s/g,"")); toast("Номер карты скопирован ✓"); } catch(e){ toast("Скопируйте номер вручную"); } };
   $("paid").onclick = async () => {
-    const phone = $("ph").value.trim(), addr = $("ad").value.trim();
+    const phone = $("ph").value.trim(), addr = CFG.pickupPoint;
     if(phone.replace(/\D/g,"").length < 9) return $("ae").textContent="Укажите номер телефона для связи";
-    if(!addr) return $("ae").textContent="Укажите адрес доставки";
     if(!$("agree").checked) return $("ae").textContent="Отметьте, что вы ознакомились с условиями доставки";
     const lines = Object.keys(cart).filter(i=>PBY[i]).map(i=>({name:PBY[i].name,qty:cart[i],price:PBY[i].price}));
     const o = {uid:session.uid,email:session.email,name:session.name,phone,addr,lines,total:total(),status:"waiting",promo:promo.code||"",code:"AL"+String(Math.floor(100000+Math.random()*900000)),createdAt:serverTimestamp()};
@@ -466,7 +467,7 @@ function payForm(){
   };
 }
 function orderMsg(o){
-  return `Новый заказ ${o.code}\nКлиент: ${o.name}, ${o.phone}\nАдрес: ${o.addr}\n\n`+o.lines.map((l,k)=>`${k+1}. ${l.name} — ${l.qty} шт × ${money(l.price)}`).join("\n")+`\n\nСумма: ${money(o.total)}\nОплата переводом на карту — прошу проверить поступление.`;
+  return `Новый заказ ${o.code}\nКлиент: ${o.name}, ${o.phone}\nПункт выдачи: ${o.addr}\n\n`+o.lines.map((l,k)=>`${k+1}. ${l.name} — ${l.qty} шт × ${money(l.price)}`).join("\n")+`\n\nСумма: ${money(o.total)}\nОплата переводом на карту — прошу проверить поступление.`;
 }
 function waiting(o){
   modal(`<h2>⏳ Ждём подтверждение оплаты</h2><p>Заказ <b>${esc(o.code)}</b> принят. Как только мы увидим поступление <b>${money(o.total)}</b>, заказ будет подтверждён — статус появится в разделе «Заказы».</p>
