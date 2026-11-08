@@ -128,6 +128,10 @@ input:focus{outline:2px solid var(--accent);border-color:transparent}
 .fab.up{bottom:82px;background:var(--text);color:var(--bg);opacity:0;pointer-events:none;transform:translateY(10px)}.fab.up.show{opacity:1;pointer-events:auto;transform:none}
 .fcols{max-width:1120px;margin:0 auto 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;text-align:left;line-height:1.9}footer a{color:var(--accent)}
 .pickup{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:10px 14px;margin:0 0 10px;font-size:.95rem}
+.cargo{margin-top:10px;background:var(--surface);border:1px solid var(--accent2);border-left:5px solid var(--accent2);border-radius:12px;padding:12px 14px;font-size:.92rem;line-height:1.5}
+.cargosum{margin:8px 0;font-size:1.05rem}.cargosum.wait{color:var(--muted);font-size:.95rem}
+.cargo details{margin:8px 0 0;padding:0;border:0;background:none}.cargo summary{color:var(--accent);font-weight:600;cursor:pointer}.cargo .a{color:var(--text);font-size:.9rem}
+.cedit{display:flex;gap:8px;margin-top:8px}.cin{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:inherit}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:999px;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;font-size:.92rem}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.reveal.in{opacity:1;transform:none}
@@ -377,7 +381,7 @@ const STATUS = {
   waiting:["⏳ Ожидает подтверждения оплаты",""],
   ok:["✓ Оплата подтверждена — заказываем в Китае","ok"],
   transit:["🚚 В пути (около 20 дней)","ok"],
-  cargo:["⚖️ Посылка прибыла — сообщим вес и сумму карго","ok"],
+  cargo:["📦 Посылка на складе в Китае — ждём оплату карго","ok"],
   done:["🎉 Получен","ok"]
 };
 const sortNew = (x,y) => (y.createdAt?.seconds ?? 9e9) - (x.createdAt?.seconds ?? 9e9);
@@ -391,23 +395,29 @@ function watchOrders(){
   if(isAdmin()) unsubAll = onSnapshot(collection(db,"orders"), sn=>{ allOrders=sn.docs.map(d=>({fid:d.id,...d.data()})).sort(sortNew); refreshViews(); }, fail);
 }
 const stepper = o => { const ks=Object.keys(STATUS), n=ks.indexOf(o.status); return `<div class="stp">${ks.map((k,j)=>`<i class="${j<=n?"on":""}"></i>`).join("")}</div>`; };
+const cargoNote = o => o.status === "cargo" ? `<div class="cargo"><b>🎉 Посылка уже на складе в Китае!</b><br>Осталось оплатить карго — доставку в Узбекистан.
+  ${+o.cargo > 0 ? `<div class="cargosum">К оплате за карго: <b>${money(+o.cargo)}</b></div>` : `<div class="cargosum wait">⏳ Сумма карго скоро появится здесь.</div>`}
+  <details><summary>Подробнее</summary><div class="a">Карго — это стоимость доставки посылки из Китая в Узбекистан, она зависит от веса посылки. Сумма к оплате указана выше. После оплаты карго вы получите заказ в пункте выдачи: <b>${esc(CFG.pickupPoint)}</b>.<br>Оплатить можно переводом на карту: <b>${esc(CFG.cardNumber)}</b> (${esc(CFG.cardOwner)}) <button class="btn ghost cc" style="padding:4px 12px;margin-left:6px">Скопировать</button></div></details></div>` : "";
 function orderCard(o,adm){
   const s = STATUS[o.status] || STATUS.waiting;
   return `<div class="ord"><b>${esc(o.code||"")}</b> · ${esc(dt(o))}<br>
   ${adm?`${esc(o.name||"")} · ${esc(o.email||"")}<br>📞 ${esc(o.phone||"")}<br>📍 ${esc(o.addr||"")}<br>${o.promo?`🏷 Промокод: ${esc(o.promo)}<br>`:""}`:""}
   ${(o.lines||[]).map(l=>esc(l.name)+" × "+esc(l.qty)).join(", ")}<br><b>${money(+o.total||0)}</b><br>
-  ${adm?`<select class="sel" data-f="${esc(o.fid)}">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${k===o.status?"selected":""}>${v[0]}</option>`).join("")}</select>`
-       :`${stepper(o)}<span class="st ${s[1]}">${s[0]}</span>`}</div>`;
+  ${adm?`<select class="sel" data-f="${esc(o.fid)}">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${k===o.status?"selected":""}>${v[0]}</option>`).join("")}</select><div class="cedit"><input type="number" inputmode="numeric" min="0" class="cin" placeholder="Сумма карго, сум" value="${esc(o.cargo||"")}"><button class="btn ghost" data-c="${esc(o.fid)}">Сохранить</button></div>`
+       :`${stepper(o)}<span class="st ${s[1]}">${s[0]}</span>${cargoNote(o)}`}</div>`;
 }
 function showOrders(quiet){
   modal(`<h2>Мои заказы</h2>`+(orders.length?orders.map(o=>orderCard(o,false)).join(""):'<p>Заказов пока нет.</p>'), quiet===true);
   view="orders";
+  $("box").querySelectorAll(".cc").forEach(b => b.onclick = async () => { try { await navigator.clipboard.writeText(CFG.cardNumber.replace(/\s/g,"")); toast("Номер карты скопирован ✓"); } catch(e){ toast("Скопируйте номер вручную"); } });
 }
 function showAdmin(quiet){
   const wait = allOrders.filter(o=>o.status==="waiting").length;
   modal(`<h2>Все заказы</h2><button class="btn ghost" id="catBtn" style="margin-bottom:10px">📦 Товары из канала</button><p>Ждут подтверждения оплаты: <b>${wait}</b>. Проверьте поступление на карту и смените статус.</p>`+(allOrders.length?allOrders.map(o=>orderCard(o,true)).join(""):'<p>Заказов пока нет.</p>'), quiet===true);
   view="admin";
   $("catBtn").onclick = showCatalogAdmin;
+  $("box").querySelectorAll("[data-c]").forEach(b => b.onclick = async () => { const v = Number(b.parentNode.querySelector(".cin").value) || 0;
+    try { await updateDoc(doc(db,"orders",b.dataset.c),{cargo:v}); toast("Сумма карго сохранена ✓"); } catch(e){ console.error(e); toast("Не удалось сохранить"); } });
   $("box").querySelectorAll(".sel").forEach(el=>el.onchange=async()=>{
     try{ await updateDoc(doc(db,"orders",el.dataset.f),{status:el.value}); toast("Статус обновлён ✓"); }
     catch(e){ console.error(e); toast("Не удалось изменить статус"); }
