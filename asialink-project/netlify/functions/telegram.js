@@ -91,6 +91,7 @@ exports.handler = async (event) => {
   let u;
   try { u = JSON.parse(event.body); } catch (e) { return { statusCode: 200, body: "bad json" }; }
   const m = u.channel_post || u.edited_channel_post;
+  const isEdit = !u.channel_post && !!u.edited_channel_post;
   if (!m) { console.log("SKIP: это не пост канала, ключи обновления:", Object.keys(u).join(",")); return { statusCode: 200, body: "skip" }; }
   if (!allowedChat(m.chat)) {
     console.log("SKIP: канал не совпадает. Пришло: id=" + m.chat.id + " username=" + (m.chat.username || "нет") + "; в CHANNEL записано: " + (process.env.CHANNEL || "(пусто)"));
@@ -113,7 +114,9 @@ exports.handler = async (event) => {
 
       if (m.photo && m.photo.length) {
         const fid = choosePhoto(m.photo);
-        if (!it.photos.includes(fid)) it.photos.push(fid);
+        // при редактировании одиночного поста фото заменяется на новое
+        if (isEdit && !m.media_group_id) it.photos = [fid];
+        else if (!it.photos.includes(fid)) it.photos.push(fid);
       }
       if (f.name) it.name = f.name.slice(0, 120);
       if (f.cat) it.cat = f.cat.slice(0, 40);
@@ -136,7 +139,7 @@ exports.handler = async (event) => {
     return { statusCode: 200, body: "error" };
   }
 
-  console.log("SAVED:", JSON.stringify(result));
+  console.log((isEdit ? "EDIT " : "NEW ") + "SAVED:", JSON.stringify(result));
   if (result.hasFields) {
     if (result.name && result.price > 0) await notify(`✅ На сайте: ${result.name} — ${result.price.toLocaleString("ru-RU")} сум`);
     else if (result.name) await notify(`⚠️ «${result.name}» не показан на сайте: не удалось определить цену. Проверьте строку «Цена:» (например 45 ¥ или 150000 сум) и курс CNY_TO_UZS.`);
