@@ -177,6 +177,13 @@ body.cartopen .cartbar{opacity:0;pointer-events:none;transform:translate(-50%,12
 .savebox .was{margin-top:4px;color:#374151}.savebox s{color:#6b7280}
 .chipsave{background:#d7f5e1;color:#14532d;border-radius:999px;padding:2px 10px;font-size:.85rem;font-weight:700}
 .cartbar .sv{font-weight:500;font-size:.88rem;opacity:.95}
+.optg{margin:12px 0 4px}.optt{font-size:.88rem;color:var(--muted);margin-bottom:6px}.optt span{color:var(--text);font-weight:600}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;padding:8px 14px;font:inherit}
+.opt:hover{border-color:var(--accent)}
+.opt.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface));color:var(--accent);font-weight:700;box-shadow:0 0 0 1px var(--accent) inset}
+.cdot{width:14px;height:14px;border-radius:50%;border:1px solid var(--line);display:inline-block}
+.it .n small{display:block}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:999px;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;font-size:.92rem}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.reveal.in{opacity:1;transform:none}
@@ -299,6 +306,8 @@ const CFG = {
    old   — старая цена (покажется зачёркнутой и значок скидки; указывайте только реальную)
    badge — метка: "Хит", "Новинка"
    tags  — слова для поиска через пробел (синонимы, английские названия): "airpods earbuds аирподс"
+   sizes — размеры: [{n:"S"},{n:"M"},{n:"XL",p:150000}]  (p — своя цена размера в сумах, если отличается)
+   colors — цвета: ["Чёрный","Белый","Красный"]
    stock — остаток (покажет «Осталось N шт» — указывайте только настоящий остаток)  */
 const PRODUCTS = [
   {name:"Беспроводные наушники", cat:"Электроника", price:149000, old:199000, badge:"Хит", img:"", emoji:"🎧", tags:"airpods earbuds headphones tws bluetooth блютуз"},
@@ -353,7 +362,7 @@ const hit = (w,t) => { if(t.includes(w)) return true; const tol = w.length<=3?0:
   return Math.min(lev(w,t), lev(w,t.slice(0,w.length))) <= tol; };
 let term = [];
 const PBY = {}; const STATIC = PRODUCTS.map((p,i) => (p.id = String(i), p));
-function indexProducts(){ for(const k in PBY) delete PBY[k]; PRODUCTS.forEach(p => { PBY[p.id] = p; p._t = tokens(p.name+" "+p.cat+" "+(p.tags||"")); }); }
+function indexProducts(){ for(const k in PBY) delete PBY[k]; PRODUCTS.forEach(p => { PBY[p.id] = p; p._t = tokens(p.name+" "+p.cat+" "+(p.tags||"")+" "+(p.colors||[]).join(" ")); }); }
 indexProducts();
 const match = p => !term.length || term.every(w => p._t.some(t => hit(w,t)));
 function filters(){
@@ -365,40 +374,55 @@ function filters(){
 }
 const favs = new Set(load("al_fav",[])); let sortBy = "def", favOnly = false;
 function saveFav(){ store("al_fav",[...favs]); const b=$("favBtn"); b.textContent=(favOnly?"♥":"♡")+" Избранное"+(favs.size?" · "+favs.size:""); b.classList.toggle("on",favOnly); }
-function addToCart(i,n=1){ cart[i]=(cart[i]||0)+n; renderCart(); toast("Добавлено в корзину ✓ · Открыть", openCart); for(const id of ["cartBtn","cartBar"]){ const b=$(id); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); } }
+function addToCart(i,n=1,size="",color=""){ const k = (size||color) ? [i,size,color].join("~") : i; cart[k]=(cart[k]||0)+n; renderCart(); toast("Добавлено в корзину ✓ · Открыть", openCart); for(const id of ["cartBtn","cartBar"]){ const b=$(id); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); } }
 const fade = () => { $("grid").classList.add("out"); setTimeout(()=>{ grid(); $("grid").classList.remove("out"); },220); };
 function grid(){
   const off = p => p.old ? 1-p.price/p.old : 0;
   const list = PRODUCTS.map(p=>({p,i:p.id})).filter(x=>(cat==="Все"||x.p.cat===cat)&&match(x.p)&&(!favOnly||favs.has(x.p.name)));
   if(sortBy==="asc") list.sort((a,b)=>a.p.price-b.p.price); else if(sortBy==="desc") list.sort((a,b)=>b.p.price-a.p.price); else if(sortBy==="disc") list.sort((a,b)=>off(b.p)-off(a.p));
   $("found").textContent = "Товаров: "+list.length;
-  $("grid").innerHTML = list.map(({p,i},k)=>{ const o=Math.round(off(p)*100), f=favs.has(p.name);
+  $("grid").innerHTML = list.map(({p,i},k)=>{ const o=Math.round(off(p)*100), f=favs.has(p.name), [mn,mx]=priceRange(p);
     return `<div class="card" style="animation-delay:${Math.min(k,12)*60}ms"><div class="pic" data-v="${i}">${pic(p)}<button class="fav ${f?"on":""}" data-f="${i}" aria-label="В избранное">${f?"♥":"♡"}</button></div>
     ${o>0?`<span class="tag">−${o}%</span>`:""}${p.badge?`<span class="tag b">${esc(p.badge)}</span>`:""}
     <div class="info"><small>${esc(p.cat)}</small><h3 data-v="${i}" style="cursor:pointer">${esc(p.name)}</h3>
     ${p.stock?`<span class="stock">Осталось ${p.stock} шт</span>`:""}
-    <div class="prices">${p.old?`<span class="old">${money(p.old)}</span>`:""}<span class="price">${money(p.price)}</span></div>
-    <button class="add" data-i="${i}">В корзину</button></div></div>`; }).join("");
+    <div class="prices">${p.old?`<span class="old">${money(p.old)}</span>`:""}<span class="price">${mx>mn?"от ":""}${money(mn)}</span></div>
+    <button class="add" data-i="${i}">${hasVariants(p)?"Выбрать вариант":"В корзину"}</button></div></div>`; }).join("");
   if(!list.length) $("grid").innerHTML = `<div class="empty" style="grid-column:1/-1">${favOnly&&!term.length&&cat==="Все"?"♡<br>В избранном пока пусто.<br>Нажмите сердечко на товаре, чтобы сохранить его.":`😕<br>Ничего не найдено${term.length?" по запросу «"+esc($("q").value.trim())+"»":""}.<br>Попробуйте другое слово или категорию.`}</div>`;
-  $("grid").querySelectorAll(".add").forEach(b=>b.onclick=()=>addToCart(b.dataset.i));
+  $("grid").querySelectorAll(".add").forEach(b=>b.onclick=()=>{ const p = PBY[b.dataset.i]; if(hasVariants(p)){ quickView(p.id); toast("Выберите размер и цвет"); } else addToCart(b.dataset.i); });
   $("grid").querySelectorAll("[data-v]").forEach(el=>el.onclick=()=>quickView(el.dataset.v));
   $("grid").querySelectorAll(".fav").forEach(b=>b.onclick=e=>{ e.stopPropagation(); const p=PBY[b.dataset.f];
     favs.has(p.name)?favs.delete(p.name):favs.add(p.name); saveFav();
     if(favOnly) return fade(); b.classList.toggle("on",favs.has(p.name)); b.textContent=favs.has(p.name)?"♥":"♡"; });
 }
 function quickView(i){
-  const p=PBY[i], o=p.old?Math.round((1-p.price/p.old)*100):0; let n=1;
+  const p = PBY[i], sizes = p.sizes || [], colors = p.colors || []; let n = 1, size = "", color = "";
   modal(`<div class="qpic" id="qimgbox">${pic(p)}</div>${(p.photos&&p.photos.length>1)?`<div class="thumbs">${p.photos.map(u=>`<img src="${esc(u)}" alt="">`).join("")}</div>`:""}<small style="color:var(--muted)">${esc(p.cat)}</small><h2 style="margin:2px 0 6px">${esc(p.name)}</h2>
-  <div class="prices" style="padding:0">${p.old?`<span class="old">${money(p.old)}</span>`:""}<span class="price" style="font-size:1.3rem">${money(p.price)}</span>${o>0?` <span class="tag" style="position:static;margin-left:6px">−${o}%</span>`:""}</div>
+  <div class="prices" style="padding:0" id="qpricebox"></div>
+  ${sizes.length?`<div class="optg"><div class="optt">Размер <span id="ose"></span></div><div class="opts" id="osz">${sizes.map(x=>`<button type="button" class="opt" data-s="${esc(x.n)}">${esc(x.n)}</button>`).join("")}</div></div>`:""}
+  ${colors.length?`<div class="optg"><div class="optt">Цвет <span id="oco"></span></div><div class="opts" id="ocl">${colors.map(c=>`<button type="button" class="opt" data-c="${esc(c)}">${colorDot(c)}${esc(c)}</button>`).join("")}</div></div>`:""}
   ${p.stock?`<div class="stock" style="margin-top:4px">Осталось ${p.stock} шт</div>`:""}
   <p style="margin:10px 0">${p.desc?esc(p.desc):"Товар заказывается напрямую из Китая."}</p>
   <p class="mini">📦 Доставка до 20 дней · ⚖️ карго оплачивается отдельно по весу</p>
+  <div class="err" id="qerr"></div>
   <div class="qrow"><div class="q"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div><button class="btn red" id="qa" style="flex:1">В корзину</button></div><div id="revbox"></div>`);
+  const paint = () => {
+    const [mn,mx] = priceRange(p), cur = (sizes.length && !size) ? null : unitPrice(p,size);
+    const old = (!sizes.length && p.old) ? p.old : 0, off = old ? Math.round((1-p.price/old)*100) : 0;
+    $("qpricebox").innerHTML = `${old?`<span class="old">${money(old)}</span>`:""}<span class="price" style="font-size:1.3rem">${cur !== null ? money(cur) : (mx>mn ? "от "+money(mn) : money(mn))}</span>${off>0?` <span class="tag" style="position:static;margin-left:6px">−${off}%</span>`:""}`;
+  };
+  paint();
   renderReviews(i, $("revbox"));
   $("box").querySelectorAll(".thumbs img").forEach(t=>t.onclick=()=>{ $("qimgbox").innerHTML=`<img src="${esc(t.getAttribute("src"))}" alt="">`; });
+  $("box").querySelectorAll(".opt[data-s]").forEach(b=>b.onclick=()=>{ size = b.dataset.s; $("box").querySelectorAll(".opt[data-s]").forEach(x=>x.classList.toggle("on",x===b)); $("ose").textContent = "— " + size; $("qerr").textContent = ""; paint(); });
+  $("box").querySelectorAll(".opt[data-c]").forEach(b=>b.onclick=()=>{ color = b.dataset.c; $("box").querySelectorAll(".opt[data-c]").forEach(x=>x.classList.toggle("on",x===b)); $("oco").textContent = "— " + color; $("qerr").textContent = ""; });
   $("qm").onclick=()=>{ n=Math.max(1,n-1); $("qn").textContent=n; };
   $("qp").onclick=()=>{ n=Math.min(99,n+1); $("qn").textContent=n; };
-  $("qa").onclick=()=>{ hideModal(); addToCart(i,n); };
+  $("qa").onclick=()=>{
+    if(sizes.length && !size) return $("qerr").textContent = "Выберите размер";
+    if(colors.length && !color) return $("qerr").textContent = "Выберите цвет";
+    hideModal(); addToCart(i,n,size,color);
+  };
 }
 if(REVIEWS.length) $("revSec").innerHTML = `<h2 class="sec reveal">Отзывы клиентов</h2><div class="revs reveal">`+REVIEWS.map(r=>`<div class="rev"><b>${esc(r.name)}</b><p>${esc(r.text)}</p></div>`).join("")+`</div>`;
 
@@ -471,7 +495,7 @@ function orderCard(o,adm){
   const s = STATUS[o.status] || STATUS.waiting;
   return `<div class="ord"><b>${esc(o.code||"")}</b> · ${esc(dt(o))}<br>
   ${adm?`${esc(o.name||"")} · ${esc(o.email||"")}<br>📞 ${esc(o.phone||"")}<br>📍 ${esc(o.addr||"")}<br>${o.promo?`🏷 Промокод: ${esc(o.promo)}<br>`:""}`:""}
-  ${(o.lines||[]).map(l=>esc(l.name)+" × "+esc(l.qty)).join(", ")}<br><b>${money(+o.total||0)}</b><br>
+  ${(o.lines||[]).map(l=>esc(l.name)+((l.size||l.color)?" ("+[l.size,l.color].filter(Boolean).map(esc).join(", ")+")":"")+" × "+esc(l.qty)).join(", ")}<br><b>${money(+o.total||0)}</b><br>
   ${adm?`<select class="sel" data-f="${esc(o.fid)}">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${k===o.status?"selected":""}>${v[0]}</option>`).join("")}</select><div class="cedit"><input type="number" inputmode="numeric" min="0" class="cin" placeholder="Сумма карго, сум" value="${esc(o.cargo||"")}"><button class="btn ghost" data-c="${esc(o.fid)}">Сохранить</button></div><button class="btn ghost" data-del-order="${esc(o.fid)}" style="margin-top:8px;color:var(--red)">Удалить заказ</button>`
        :`${stepper(o)}<span class="st ${s[1]}">${s[0]}</span>${cargoNote(o)}`}</div>`;
 }
@@ -497,7 +521,15 @@ function showAdmin(quiet){
 }
 
 /* ---------- корзина ---------- */
-function sub(){ return Object.keys(cart).reduce((s,i)=>s+(PBY[i]?PBY[i].price*cart[i]:0),0); }
+const keyParts = k => { const a = String(k).split("~"); return {id:a[0], size:a[1]||"", color:a[2]||""}; };
+const unitPrice = (p,size) => { const s = (p.sizes||[]).find(x => x.n === size); return s && s.p > 0 ? s.p : p.price; };
+const lineOf = k => { const {id,size,color} = keyParts(k); const p = PBY[id]; return p ? {p, size, color, price:unitPrice(p,size)} : null; };
+const hasVariants = p => !!((p.sizes && p.sizes.length) || (p.colors && p.colors.length));
+const priceRange = p => { const a = (p.sizes && p.sizes.length) ? p.sizes.map(x => x.p > 0 ? x.p : p.price) : [p.price]; return [Math.min(...a), Math.max(...a)]; };
+const varLabel = (size,color) => [size && "Размер: "+size, color && "Цвет: "+color].filter(Boolean).join(" · ");
+const COLORS = {"черный":"#111","чёрный":"#111","белый":"#fff","красный":"#e63946","синий":"#1d6fe0","голубой":"#4cc3ff","зеленый":"#1f9d55","зелёный":"#1f9d55","желтый":"#ffd60a","жёлтый":"#ffd60a","розовый":"#ff8fb1","серый":"#9ca3af","коричневый":"#7b4a2d","бежевый":"#e9d8b4","фиолетовый":"#8b5cf6","оранжевый":"#ff8c00","золотой":"#d4af37","серебристый":"#c0c0c0"};
+const colorDot = n => { const c = COLORS[String(n).toLowerCase()]; return c ? `<i class="cdot" style="background:${c}"></i>` : ""; };
+function sub(){ return Object.keys(cart).reduce((s,k)=>{ const L = lineOf(k); return s + (L ? L.price*cart[k] : 0); },0); }
 const promoOn = () => promo.pct > 0 && !(CFG.promoFirstOrder && session && ordersLoaded && orders.length > 0);
 function disc(){ const b = CFG.bonusPercent>0 && sub()>=CFG.bonusFrom ? CFG.bonusPercent : 0; const pct = Math.min(50, Math.max(b, promoOn() ? promo.pct : 0)); return Math.round(sub()*pct/100); }
 function total(){ return sub()-disc(); }
@@ -539,11 +571,11 @@ function updatePromoBar(){
 
 function renderCart(){
   store("al_cart",cart);
-  const ids = Object.keys(cart).filter(i=>cart[i]>0&&PBY[i]);
+  const ids = Object.keys(cart).filter(k=>cart[k]>0&&lineOf(k));
   const cntN = ids.reduce((s,i)=>s+cart[i],0); $("cnt").textContent = cntN; $("cbn").textContent = cntN; $("cbs").textContent = money(total()); $("cartBar").classList.toggle("show", cntN > 0); $("cbsv").textContent = disc() > 0 ? "(−" + money(disc()) + ")" : ""; renderSaveBox(); updatePromoBar();
   if(!ids.length){ $("items").innerHTML='<div class="empty">🛒<br>Корзина пока пуста</div>'; $("foot").innerHTML=""; return; }
-  $("items").innerHTML = ids.map(i=>{const p=PBY[i];return `<div class="it"><div class="t">${pic(p)}</div><div class="n"><b>${esc(p.name)}</b><small>${money(p.price)}</small></div>
-  <div class="q"><button data-d="-1" data-i="${i}">−</button><span>${cart[i]}</span><button data-d="1" data-i="${i}">+</button></div></div>`;}).join("");
+  $("items").innerHTML = ids.map(k=>{ const L = lineOf(k), vl = varLabel(L.size,L.color); return `<div class="it"><div class="t">${pic(L.p)}</div><div class="n"><b>${esc(L.p.name)}</b>${vl?`<small>${esc(vl)}</small>`:""}<small>${money(L.price)}</small></div>
+  <div class="q"><button data-d="-1" data-i="${esc(k)}">−</button><span>${cart[k]}</span><button data-d="1" data-i="${esc(k)}">+</button></div></div>`; }).join("");
   $("items").querySelectorAll(".q button").forEach(b=>b.onclick=()=>{cart[b.dataset.i]+=+b.dataset.d;if(cart[b.dataset.i]<1)delete cart[b.dataset.i];renderCart();});
   let bonus="";
   if(CFG.bonusPercent>0 && !promoOn()){ const s=sub(), pc=Math.min(100,s/CFG.bonusFrom*100);
@@ -579,7 +611,7 @@ function payForm(){
       if(!ordersLoaded) return $("ae").textContent = "Проверяем промокод… нажмите ещё раз через секунду";
       if(orders.length > 0){ promo = {code:"",pct:0}; store("al_promo",promo); renderCart(); toast("Промокод действует только на первый заказ — скидка снята"); payForm(); return; }
     }
-    const lines = Object.keys(cart).filter(i=>PBY[i]).map(i=>({name:PBY[i].name,qty:cart[i],price:PBY[i].price}));
+    const lines = Object.keys(cart).filter(k=>lineOf(k)).map(k=>{ const L = lineOf(k); return {name:L.p.name, qty:cart[k], price:L.price, size:L.size, color:L.color}; });
     const o = {uid:session.uid,email:session.email,name:session.name,phone,addr,lines,total:total(),status:"waiting",promo:promo.code||"",code:"AL"+String(Math.floor(100000+Math.random()*900000)),createdAt:serverTimestamp()};
     const btn = $("paid"); btn.disabled = true; btn.textContent = "Сохраняем заказ…";
     try { await addDoc(collection(db,"orders"), o); cart={}; renderCart(); waiting(o); }
@@ -587,7 +619,7 @@ function payForm(){
   };
 }
 function orderMsg(o){
-  return `Новый заказ ${o.code}\nКлиент: ${o.name}, ${o.phone}\nПункт выдачи: ${o.addr}\n\n`+o.lines.map((l,k)=>`${k+1}. ${l.name} — ${l.qty} шт × ${money(l.price)}`).join("\n")+`\n\nСумма: ${money(o.total)}\nОплата переводом на карту — прошу проверить поступление.`;
+  return `Новый заказ ${o.code}\nКлиент: ${o.name}, ${o.phone}\nПункт выдачи: ${o.addr}\n\n`+o.lines.map((l,k)=>`${k+1}. ${l.name}${(l.size||l.color)?" ("+[l.size,l.color].filter(Boolean).join(", ")+")":""} — ${l.qty} шт × ${money(l.price)}`).join("\n")+`\n\nСумма: ${money(o.total)}\nОплата переводом на карту — прошу проверить поступление.`;
 }
 function waiting(o){
   modal(`<h2>⏳ Ждём подтверждение оплаты</h2><p>Заказ <b>${esc(o.code)}</b> принят. Как только мы увидим поступление <b>${money(o.total)}</b>, заказ будет подтверждён — статус появится в разделе «Заказы».</p>
@@ -618,7 +650,7 @@ function applyCatalog(items){
   catalogLoaded = true;
   CATALOG_RAW = items || [];
   const dyn = CATALOG_RAW.filter(x => x.name && x.price > 0).sort((a,b) => (b.created||0)-(a.created||0)).map(x => ({
-    id:"t"+x.id, name:x.name, cat:x.cat||"Разное", price:x.price, old:x.old||0, desc:x.desc||"", tags:x.tags||"", badge:x.badge||"", stock:x.stock||0,
+    id:"t"+x.id, name:x.name, cat:x.cat||"Разное", price:x.price, old:x.old||0, desc:x.desc||"", tags:x.tags||"", badge:x.badge||"", stock:x.stock||0, sizes:x.sizes||[], colors:x.colors||[],
     img:(x.photos && x.photos[0]) ? PHOTO_URL(x.photos[0]) : "", photos:(x.photos||[]).map(PHOTO_URL), emoji:"📦" }));
   PRODUCTS.length = 0; PRODUCTS.push(...(dyn.length && CFG.hideSamples ? [] : STATIC), ...dyn);
   indexProducts();
