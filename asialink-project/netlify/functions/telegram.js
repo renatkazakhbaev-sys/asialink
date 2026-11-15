@@ -25,6 +25,8 @@ const LABELS = {
   tags: ["теги", "tags", "ключевые слова"],
   badge: ["метка", "badge"],
   stock: ["остаток", "stock"],
+  sizes: ["размеры", "размер", "sizes", "size"],
+  colors: ["цвета", "цвет", "colors", "color"],
 };
 
 function parse(text) {
@@ -53,6 +55,17 @@ function parseMoney(s, env) {
   const mk = parseFloat(env.MARKUP_PERCENT || "0") || 0;
   if (!(rate > 0)) return 0;
   return Math.round((num * rate * (1 + mk / 100)) / 1000) * 1000;
+}
+
+/* "S, M, L=50 ¥, XL=55 ¥" -> [{n:"S",p:0},{n:"M",p:0},{n:"L",p:цена в сумах},...]; p=0 — цена как у товара */
+function parseSizes(str, env) {
+  return String(str || "").split(/[,;]+/).map((x) => x.trim()).filter(Boolean).slice(0, 30).map((x) => {
+    const m = x.match(/^(.+?)\s*=\s*(.+)$/);
+    return m ? { n: m[1].trim().slice(0, 20), p: parseMoney(m[2], env) } : { n: x.slice(0, 20), p: 0 };
+  });
+}
+function parseList(str) {
+  return String(str || "").split(/[,;]+/).map((x) => x.trim()).filter(Boolean).slice(0, 30).map((x) => x.slice(0, 24));
 }
 
 function choosePhoto(sizes) {
@@ -126,6 +139,11 @@ exports.handler = async (event) => {
       if (f.stock !== undefined) it.stock = parseInt(f.stock, 10) || 0;
       if (f.price !== undefined) it.price = parseMoney(f.price, process.env);
       if (f.old !== undefined) it.old = parseMoney(f.old, process.env);
+      if (f.sizes !== undefined) it.sizes = parseSizes(f.sizes, process.env);
+      if (f.colors !== undefined) it.colors = parseList(f.colors);
+      // если общей цены нет, берём минимальную из цен размеров
+      const sp = (it.sizes || []).map((x) => x.p).filter((x) => x > 0);
+      if (!(it.price > 0) && sp.length) it.price = Math.min(...sp);
 
       // чистим «пустышки» (фото без подписи) старше суток
       const now = Date.now();
@@ -150,3 +168,5 @@ exports.handler = async (event) => {
 exports._parse = parse;
 exports._parseMoney = parseMoney;
 exports._choosePhoto = choosePhoto;
+exports._parseSizes = parseSizes;
+exports._parseList = parseList;
