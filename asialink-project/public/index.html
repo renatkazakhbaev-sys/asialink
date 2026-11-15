@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AsiaLink — товары из Азии</title>
-<meta name="description" content="AsiaLink — товары из Азии с доставкой в Узбекистан: электроника, одежда, товары для дома.">
+<meta name="description" content="AsiaLink — товары из Китая и Азии со сроком доставки до 20 дней и получением в Ташкенте: электроника, одежда, товары для дома.">
 <meta name="theme-color" content="#e63946">
 <meta property="og:title" content="AsiaLink — товары из Азии">
-<meta property="og:description" content="Заказывайте товары из Азии с доставкой в Узбекистан.">
+<meta property="og:description" content="Заказывайте товары из Китая и Азии и забирайте их в Ташкенте.">
 <style>
 :root{--red:#e63946;box-sizing:border-box}
 [data-theme="red"]{--bg:#fff7f3;--surface:#fff;--text:#2b1d1a;--muted:#7d6a64;--accent:#e63946;--accent2:#ffb703;--line:#f1ded6;--hero:linear-gradient(135deg,#ffe3d6,#fff1c9)}
@@ -132,6 +132,51 @@ input:focus{outline:2px solid var(--accent);border-color:transparent}
 .cargosum{margin:8px 0;font-size:1.05rem}.cargosum.wait{color:var(--muted);font-size:.95rem}
 .cargo details{margin:8px 0 0;padding:0;border:0;background:none}.cargo summary{color:var(--accent);font-weight:600;cursor:pointer}.cargo .a{color:var(--text);font-size:.9rem}
 .cedit{display:flex;gap:8px;margin-top:8px}.cin{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:inherit}
+a.btn{text-decoration:none;display:inline-block}
+body{animation:pagein .5s}@keyframes pagein{from{opacity:0}to{opacity:1}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.topbar{background:var(--text);color:var(--bg);text-align:center;font-size:.82rem;padding:7px 12px}
+.cartbtn{background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 45%,transparent)}
+.cartbtn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.badge{background:#fff;color:var(--accent);border-radius:999px;min-width:22px;padding:0 6px;font-weight:800;text-align:center;line-height:22px}
+.iconbtn{font-size:1.25rem;line-height:1;padding:7px 13px}
+.menuwrap{position:relative}
+.menu{position:absolute;right:0;top:calc(100% + 8px);min-width:240px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 14px 40px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,transform .2s,visibility .2s;z-index:30}
+.menu.open{opacity:1;visibility:visible;transform:none}
+.menu .mt{font-size:.82rem;color:var(--muted);margin-bottom:8px}
+.menu .dots{margin-bottom:6px}.menu .dot{width:30px;height:30px}
+.menu hr{border:0;border-top:1px solid var(--line);margin:8px 0}
+.menu a{display:block;padding:9px 8px;color:var(--text);text-decoration:none;border-radius:8px;font-size:.95rem}.menu a:hover{background:var(--bg);color:var(--accent)}
+.eyebrow{justify-self:start;background:var(--surface);color:var(--accent);font-weight:700;font-size:.8rem;border-radius:999px;padding:5px 14px;letter-spacing:.02em}
+.heroact{display:flex;gap:10px;flex-wrap:wrap}.heroact .btn{padding:13px 26px;font-size:1.02rem}
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
+.terms>div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.terms span{color:var(--muted);font-size:.92rem}
+.cartbar{position:fixed;left:50%;bottom:16px;transform:translate(-50%,120px);width:min(92vw,440px);background:var(--accent);color:#fff;border:0;border-radius:999px;padding:14px 22px;font-size:1rem;font-weight:600;display:flex;justify-content:center;align-items:center;gap:8px;box-shadow:0 10px 30px color-mix(in srgb,var(--accent) 50%,transparent);z-index:9;transition:transform .4s cubic-bezier(.2,.9,.3,1.2),opacity .3s;opacity:0;pointer-events:none}
+.cartbar.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+.cartbar:hover{filter:brightness(1.07)}.cartbar .go{margin-left:4px}
+.cartbar.bump{animation:cbump .45s}@keyframes cbump{50%{transform:translate(-50%,-6px) scale(1.04)}}
+body.cartopen .cartbar{opacity:0;pointer-events:none;transform:translate(-50%,120px)}
+.fab.up{bottom:84px}
+.toast{bottom:84px}.toast.act{pointer-events:auto;cursor:pointer;text-decoration:underline}
+.rvh{margin:20px 0 6px;font-size:1.05rem}.rv{border-top:1px solid var(--line);padding:10px 0}.rv p{margin:4px 0 0;color:var(--text);font-size:.93rem}
+.rvt{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.rvt small{color:var(--muted)}
+.stars{color:#f5a623;letter-spacing:1px}
+.rvdel{background:none;border:0;color:var(--red);font-size:.85rem;text-decoration:underline;padding:0}
+.rvform textarea{width:100%;min-height:84px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font:inherit;margin:8px 0;resize:vertical}
+.starpick button{background:none;border:0;font-size:1.8rem;color:var(--line);padding:0 2px;line-height:1}.starpick button:hover,.starpick button.on{color:#f5a623}
+.card.sk{opacity:1;animation:none}.sk .pic,.skl{background:linear-gradient(90deg,var(--line),var(--bg),var(--line));background-size:200% 100%;animation:shim 1.2s infinite}
+.skl{height:14px;border-radius:8px;margin:8px 0}.skl.s{width:60%}@keyframes shim{to{background-position:-200% 0}}
+@media(max-width:760px){nav{display:none}.topbar{font-size:.75rem}}
+@media(max-width:520px){.cartbtn .cl{display:none}.bar{gap:8px}.logo{font-size:1.2rem}}
+.promobar{display:none;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 65%,#000));color:#fff;padding:9px 14px;font-size:.93rem;text-align:center}
+.promobar.on{display:flex;animation:pagein .5s}.promobar b{background:rgba(255,255,255,.22);padding:1px 8px;border-radius:6px}
+.promobar .pbb{background:#fff;color:var(--accent);border:0;border-radius:999px;padding:6px 18px;font-weight:700}.promobar .pbb:hover{transform:scale(1.06)}
+.promochip{display:none;justify-self:start;background:#fff7d6;color:#7a4b00;border:1px dashed #e0a800;border-radius:999px;padding:7px 16px;font-weight:600;font-size:.95rem}.promochip.on{display:inline-block}
+.savebox{margin:10px 18px 0;background:linear-gradient(135deg,#e8fff1,#fff7d6);color:#14532d;border:1px solid #9ad8b1;border-radius:14px;padding:12px 14px;font-size:.93rem;animation:up .4s}
+.savebox .was{margin-top:4px;color:#374151}.savebox s{color:#6b7280}
+.chipsave{background:#d7f5e1;color:#14532d;border-radius:999px;padding:2px 10px;font-size:.85rem;font-weight:700}
+.cartbar .sv{font-weight:500;font-size:.88rem;opacity:.95}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:999px;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;font-size:.92rem}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.reveal.in{opacity:1;transform:none}
@@ -139,21 +184,29 @@ input:focus{outline:2px solid var(--accent);border-color:transparent}
 </style>
 </head>
 <body data-theme="red">
+<div class="promobar" id="promoBar"><span id="pbt"></span><button class="pbb" id="pbb">Применить</button></div>
 <header><div class="bar">
   <a class="logo" href="#top">Asia<span>Link</span></a>
-  <nav><a href="#shop">Товары</a><a href="#how">Как заказать</a><a href="#faq">Вопросы</a></nav>
-  <div class="dots" id="dots" title="Оформление сайта"></div>
-  <button class="btn ghost" id="cartBtn">🛒 <span id="cnt">0</span></button>
+  <nav><a href="#shop">Товары</a><a href="#how">Как это работает</a><a href="#terms">Условия</a><a href="#faq">Вопросы</a></nav>
+  <button class="btn cartbtn" id="cartBtn" aria-label="Корзина">🛒 <span class="cl">Корзина</span> <span class="badge" id="cnt">0</span></button>
   <span id="authArea"></span>
+  <div class="menuwrap"><button class="btn ghost iconbtn" id="menuBtn" aria-label="Меню" aria-haspopup="true" aria-expanded="false">⋮</button>
+    <div class="menu" id="menu" role="menu">
+      <div class="mt">🎨 Тема оформления</div><div class="dots" id="dots"></div>
+      <hr><a href="#how">📋 Как это работает</a><a href="#terms">📄 Условия</a><a href="#faq">❓ Частые вопросы</a>
+      <a id="mtg" target="_blank" rel="noopener">💬 Поддержка в Telegram</a>
+    </div></div>
 </div>  <div class="searchrow"><div class="search"><input type="search" id="q" placeholder="🔍 Найти товар: наушники, часы, худи…" autocomplete="off" aria-label="Поиск товаров"><button id="qx" aria-label="Очистить поиск" hidden>×</button></div></div>
 </header>
 
 <div class="wrap" id="top">
   <section class="hero reveal">
-    <h1>Товары из Азии — прямо к вам домой</h1>
-    <p>Выбирайте нужное, кладите в корзину и оплачивайте переводом на карту. Всё остальное мы берём на себя.</p>
-    <a class="btn red" href="#shop">Смотреть товары →</a>
-    <div class="trust"><span>🚚 Прямые заказы из Китая</span><span>💳 Оплата переводом на карту</span><span>💬 Связь в Telegram</span></div>
+    <span class="eyebrow">Товары из Китая и Азии</span>
+    <h1>Азия на расстоянии одного клика</h1>
+    <p>Выбирайте товары, оплачивайте в пару шагов и забирайте заказ в Ташкенте в удобном пункте выдачи.</p>
+    <div class="promochip" id="heroPromo"></div>
+    <div class="heroact"><a class="btn red" href="#shop">Смотреть товары →</a><a class="btn ghost" href="#how">Как это работает</a></div>
+    <div class="trust"><span>🚚 Заказы напрямую из Китая</span><span>📍 Выдача в Ташкенте</span><span>🔒 Вход через Google</span><span>📦 Статус заказа в «Заказах»</span></div>
   </section>
 
   <div class="notice reveal" id="noticeTop"></div>
@@ -167,40 +220,52 @@ input:focus{outline:2px solid var(--accent);border-color:transparent}
   <h2 class="sec reveal" id="how">Как это работает</h2>
   <div class="steps reveal">
     <div class="step"><i>1</i><b>Выберите товары</b><span>Добавьте понравившееся в корзину.</span></div>
-    <div class="step"><i>2</i><b>Оплатите заказ</b><span>Переведите сумму на нашу карту и нажмите «Я оплатил(а)».</span></div>
-    <div class="step"><i>3</i><b>Мы заказываем из Китая</b><span>Срок доставки — около 20 дней.</span></div>
-    <div class="step"><i>4</i><b>Оплатите карго и получите</b><span>Сообщим вес и сумму карго — после оплаты товар приедет к вам.</span></div>
+    <div class="step"><i>2</i><b>Оплатите заказ</b><span>Переведите сумму и нажмите «Я оплатил(а)». Мы проверим поступление.</span></div>
+    <div class="step"><i>3</i><b>Мы закажем из Китая</b><span>Срок доставки — до 20 дней. Статус виден в разделе «Заказы».</span></div>
+    <div class="step"><i>4</i><b>Оплатите карго и заберите заказ</b><span>Сумму карго мы укажем в вашем заказе. После оплаты заберите заказ в пункте выдачи в Ташкенте.</span></div>
   </div>
 
+  <h2 class="sec reveal" id="terms">Условия</h2>
+  <div class="terms reveal">
+    <div><b>📦 Доставка</b><span>Срок доставки — до 20 дней.</span></div>
+    <div><b>⚖️ Карго</b><span>Оплачивается отдельно. Стоимость зависит от веса посылки, сумму мы укажем в вашем заказе.</span></div>
+    <div><b>💳 Оплата</b><span>Переводом на карту. После перевода мы проверяем поступление и подтверждаем заказ.</span></div>
+    <div><b>📍 Получение</b><span>В пункте выдачи: <span class="pu"></span></span></div>
+  </div>
   <div id="revSec"></div>
 
   <h2 class="sec reveal" id="faq">Частые вопросы</h2>
   <div class="reveal">
-    <details><summary>Почему доставка около 20 дней?</summary><div class="a">Заказ едет напрямую со склада в Китае в Узбекистан, поэтому нужно время на сбор, отправку и таможенное оформление.</div></details>
-    <details><summary>Что такое карго и сколько оно стоит?</summary><div class="a">Это стоимость перевозки посылки в Узбекистан. Она зависит от веса. Когда посылка будет собрана, мы сообщим вам вес и сумму к оплате.</div></details>
-    <details><summary>Как оплатить заказ?</summary><div class="a">Переводом на карту. Номер карты показывается при оформлении. После перевода ваш заказ получит статус «Ожидает подтверждения» — мы проверим поступление и подтвердим.</div></details>
-    <details><summary>Как с вами связаться?</summary><div class="a">Напишите нам в Telegram — ссылка есть при оформлении заказа.</div></details>
+    <details><summary>Почему доставка до 20 дней?</summary><div class="a">Заказ едет напрямую со склада в Китае в Узбекистан, поэтому нужно время на сбор, отправку и таможенное оформление.</div></details>
+    <details><summary>Что такое карго и сколько оно стоит?</summary><div class="a">Это стоимость перевозки посылки в Узбекистан. Она зависит от веса. Когда заказ будет готов к оплате карго, мы укажем сумму в вашем заказе на сайте.</div></details>
+    <details><summary>Как оплатить заказ?</summary><div class="a">Переводом на карту. Реквизиты показываются при оформлении. После перевода нажмите «Я оплатил(а)»: заказ получит статус «Ожидает подтверждения», мы проверим поступление и подтвердим.</div></details>
+    <details><summary>Где получить заказ?</summary><div class="a">В пункте выдачи: <span class="pu"></span></div></details>
+    <details><summary>Как узнать статус заказа?</summary><div class="a">Войдите на сайт и откройте раздел «Заказы». Там виден текущий статус и сумма карго, когда она будет указана.</div></details>
+    <details><summary>Как получить скидку на первый заказ?</summary><div class="a">Введите промокод <b class="pcode"></b> в корзине или нажмите «Применить» в верхней полосе сайта. Скидка <span class="ppct"></span>% действует на ваш первый заказ.</div></details>
+    <details><summary>Можно ли оставить отзыв о товаре?</summary><div class="a">Да. Откройте товар, войдите через Google и напишите отзыв под описанием.</div></details>
+    <details><summary>Как связаться с поддержкой?</summary><div class="a">Нажмите ⋮ в правом верхнем углу и выберите «Поддержка в Telegram».</div></details>
   </div>
 </div>
-<footer><div class="fcols"><div><b style="color:var(--text)">Asia<span style="color:var(--accent)">Link</span></b><br>Товары из Азии с доставкой в Узбекистан</div>
-<div><b style="color:var(--text)">Покупателям</b><br><a href="#how">Как заказать</a><br><a href="#faq">Вопросы и ответы</a></div>
-<div><b style="color:var(--text)">Связь</b><br><a id="ftg" target="_blank" rel="noopener">Написать в Telegram</a></div></div>© AsiaLink</footer>
+<footer><div class="fcols"><div><b style="color:var(--text)">Asia<span style="color:var(--accent)">Link</span></b><br>Товары из Китая и Азии. Получение в Ташкенте.</div>
+<div><b style="color:var(--text)">Покупателям</b><br><a href="#how">Как это работает</a><br><a href="#terms">Условия</a><br><a href="#faq">Вопросы и ответы</a></div>
+<div><b style="color:var(--text)">Поддержка</b><br><a id="ftg" target="_blank" rel="noopener">Написать в Telegram</a></div></div>© AsiaLink</footer>
 
 <div class="shade" id="shade"></div>
 <aside id="cart">
   <div class="ah"><h2>Корзина</h2><button class="x" id="closeCart" aria-label="Закрыть">×</button></div>
+  <div id="cartTop"></div>
   <div class="items" id="items"></div>
   <div class="foot" id="foot"></div>
 </aside>
 <div class="modal" id="modal"><div class="box" id="box"></div></div>
-<a class="fab" id="tgfab" target="_blank" rel="noopener" aria-label="Написать в Telegram" title="Написать в Telegram">💬</a>
+<button class="cartbar" id="cartBar" aria-label="Открыть корзину">🛒 <span>Корзина</span> <b id="cbn">0</b> · <b id="cbs"></b> <span class="sv" id="cbsv"></span> <span class="go">→</span></button>
 <button class="fab up" id="up" aria-label="Наверх">↑</button>
 <div class="toast" id="toast"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, where, onSnapshot, doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, where, onSnapshot, doc, updateDoc, deleteDoc, getDocs, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* Настройки вашего проекта Firebase (эти ключи не секретные, их можно хранить в сайте) */
 const FIREBASE_CONFIG = {
@@ -226,6 +291,7 @@ const CFG = {
   bonusPercent: 5,                    // размер скидки в % (0 — отключить)
   pickupPoint: "Ташкент, Юнусабадский район, 11-й квартал, 16",   // пункт выдачи (адрес для всех заказов)
   promos: {"IKRAM20": 20},            // промокоды: "КОД": скидка в %. Несколько кодов — через запятую
+  promoFirstOrder: true,              // true = промокод действует только на первый заказ покупателя
   hideSamples: true                   // true = когда появятся товары из канала, тестовые товары прячутся
 };
 
@@ -255,14 +321,15 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 const load = (k,d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } };
 const store = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
 let promo = load("al_promo",{code:"",pct:0}); if(!CFG.promos || CFG.promos[promo.code]!==promo.pct) promo = {code:"",pct:0};
-let session = null, orders = [], allOrders = [], cart = load("al_cart",{}), cat = "Все";
+let session = null, orders = [], allOrders = [], ordersLoaded = false, cart = load("al_cart",{}), cat = "Все";
 
 /* ---------- текст-напоминание о сроках и карго ---------- */
-const NOTICE = `<b class="t">⚠️ Важно знать перед заказом</b>
-<p>📦 <b>Срок доставки — около 20 дней.</b> Ваш заказ отправляется напрямую из Китая, поэтому дорога занимает время.</p>
-<p>⚖️ <b>Карго оплачивается отдельно.</b> Стоимость доставки в Узбекистан зависит от веса посылки. Мы сообщим вам вес и сумму, которую нужно оплатить, чтобы товар приехал к вам.</p>
-<p>🔔 Мы сами свяжемся с вами в Telegram или по телефону и сообщим о каждом этапе.</p>`;
+const NOTICE = `<b class="t">ℹ️ Как устроена доставка</b>
+<p>📦 <b>Срок доставки — до 20 дней.</b> Заказ едет напрямую из Китая.</p>
+<p>⚖️ <b>Карго оплачивается отдельно.</b> Это стоимость доставки в Узбекистан, она зависит от веса посылки. Сумму мы укажем в вашем заказе на сайте.</p>
+<p>📍 <b>Получение в Ташкенте</b> — в пункте выдачи: ${esc(CFG.pickupPoint)}.</p>`;
 $("noticeTop").innerHTML = NOTICE;
+document.querySelectorAll(".pu").forEach(e => e.textContent = CFG.pickupPoint);
 
 /* ---------- оформление ---------- */
 const THEMES = {red:"#e63946", ocean:"#1d6fe0", green:"#1f9d55", night:"#272d42"};
@@ -271,7 +338,7 @@ function renderDots(){ $("dots").innerHTML = Object.entries(THEMES).map(([k,c])=
   $("dots").querySelectorAll("button").forEach(b=>b.onclick=()=>setTheme(b.dataset.t)); }
 document.body.dataset.theme = load("al_theme","red"); renderDots();
 
-function toast(t){ const e=$("toast"); e.textContent=t; e.classList.add("on"); clearTimeout(toast.t); toast.t=setTimeout(()=>e.classList.remove("on"),2400); }
+function toast(t,act){ const e=$("toast"); e.textContent=t; e.classList.toggle("act",!!act); e.onclick=act||null; e.classList.add("on"); clearTimeout(toast.t); toast.t=setTimeout(()=>e.classList.remove("on"),act?4200:2400); }
 function pic(p){ return p.img ? `<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${p.emoji||"📦"}'))">` : (p.emoji||"📦"); }
 
 /* ---------- каталог ---------- */
@@ -298,7 +365,7 @@ function filters(){
 }
 const favs = new Set(load("al_fav",[])); let sortBy = "def", favOnly = false;
 function saveFav(){ store("al_fav",[...favs]); const b=$("favBtn"); b.textContent=(favOnly?"♥":"♡")+" Избранное"+(favs.size?" · "+favs.size:""); b.classList.toggle("on",favOnly); }
-function addToCart(i,n=1){ cart[i]=(cart[i]||0)+n; renderCart(); toast("Добавлено в корзину ✓"); const b=$("cartBtn"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); }
+function addToCart(i,n=1){ cart[i]=(cart[i]||0)+n; renderCart(); toast("Добавлено в корзину ✓ · Открыть", openCart); for(const id of ["cartBtn","cartBar"]){ const b=$(id); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); } }
 const fade = () => { $("grid").classList.add("out"); setTimeout(()=>{ grid(); $("grid").classList.remove("out"); },220); };
 function grid(){
   const off = p => p.old ? 1-p.price/p.old : 0;
@@ -325,8 +392,9 @@ function quickView(i){
   <div class="prices" style="padding:0">${p.old?`<span class="old">${money(p.old)}</span>`:""}<span class="price" style="font-size:1.3rem">${money(p.price)}</span>${o>0?` <span class="tag" style="position:static;margin-left:6px">−${o}%</span>`:""}</div>
   ${p.stock?`<div class="stock" style="margin-top:4px">Осталось ${p.stock} шт</div>`:""}
   <p style="margin:10px 0">${p.desc?esc(p.desc):"Товар заказывается напрямую из Китая."}</p>
-  <p class="mini">📦 Доставка около 20 дней · ⚖️ карго оплачивается отдельно по весу</p>
-  <div class="qrow"><div class="q"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div><button class="btn red" id="qa" style="flex:1">В корзину</button></div>`);
+  <p class="mini">📦 Доставка до 20 дней · ⚖️ карго оплачивается отдельно по весу</p>
+  <div class="qrow"><div class="q"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div><button class="btn red" id="qa" style="flex:1">В корзину</button></div><div id="revbox"></div>`);
+  renderReviews(i, $("revbox"));
   $("box").querySelectorAll(".thumbs img").forEach(t=>t.onclick=()=>{ $("qimgbox").innerHTML=`<img src="${esc(t.getAttribute("src"))}" alt="">`; });
   $("qm").onclick=()=>{ n=Math.max(1,n-1); $("qn").textContent=n; };
   $("qp").onclick=()=>{ n=Math.min(99,n+1); $("qn").textContent=n; };
@@ -380,7 +448,7 @@ onAuthStateChanged(auth, user => {
 const STATUS = {
   waiting:["⏳ Ожидает подтверждения оплаты",""],
   ok:["✓ Оплата подтверждена — заказываем в Китае","ok"],
-  transit:["🚚 В пути (около 20 дней)","ok"],
+  transit:["🚚 В пути (до 20 дней)","ok"],
   cargo:["📦 Посылка на складе в Китае — ждём оплату карго","ok"],
   done:["🎉 Получен","ok"]
 };
@@ -389,9 +457,10 @@ const dt = o => o.createdAt?.toDate ? o.createdAt.toDate().toLocaleString("ru-RU
 function refreshViews(){ if(view==="orders") showOrders(true); else if(view==="admin") showAdmin(true); }
 function watchOrders(){
   if(unsubMine){ unsubMine(); unsubMine=null; } if(unsubAll){ unsubAll(); unsubAll=null; }
-  orders=[]; allOrders=[]; if(!session) return;
+  orders=[]; allOrders=[]; ordersLoaded=false;
+  if(!session){ renderCart(); return; }
   const fail = e => { console.error(e); toast("Не удалось загрузить заказы"); };
-  unsubMine = onSnapshot(query(collection(db,"orders"), where("uid","==",session.uid)), sn=>{ orders=sn.docs.map(d=>({fid:d.id,...d.data()})).sort(sortNew); refreshViews(); }, fail);
+  unsubMine = onSnapshot(query(collection(db,"orders"), where("uid","==",session.uid)), sn=>{ orders=sn.docs.map(d=>({fid:d.id,...d.data()})).sort(sortNew); ordersLoaded=true; refreshViews(); renderCart(); }, fail);
   if(isAdmin()) unsubAll = onSnapshot(collection(db,"orders"), sn=>{ allOrders=sn.docs.map(d=>({fid:d.id,...d.data()})).sort(sortNew); refreshViews(); }, fail);
 }
 const stepper = o => { const ks=Object.keys(STATUS), n=ks.indexOf(o.status); return `<div class="stp">${ks.map((k,j)=>`<i class="${j<=n?"on":""}"></i>`).join("")}</div>`; };
@@ -403,7 +472,7 @@ function orderCard(o,adm){
   return `<div class="ord"><b>${esc(o.code||"")}</b> · ${esc(dt(o))}<br>
   ${adm?`${esc(o.name||"")} · ${esc(o.email||"")}<br>📞 ${esc(o.phone||"")}<br>📍 ${esc(o.addr||"")}<br>${o.promo?`🏷 Промокод: ${esc(o.promo)}<br>`:""}`:""}
   ${(o.lines||[]).map(l=>esc(l.name)+" × "+esc(l.qty)).join(", ")}<br><b>${money(+o.total||0)}</b><br>
-  ${adm?`<select class="sel" data-f="${esc(o.fid)}">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${k===o.status?"selected":""}>${v[0]}</option>`).join("")}</select><div class="cedit"><input type="number" inputmode="numeric" min="0" class="cin" placeholder="Сумма карго, сум" value="${esc(o.cargo||"")}"><button class="btn ghost" data-c="${esc(o.fid)}">Сохранить</button></div>`
+  ${adm?`<select class="sel" data-f="${esc(o.fid)}">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${k===o.status?"selected":""}>${v[0]}</option>`).join("")}</select><div class="cedit"><input type="number" inputmode="numeric" min="0" class="cin" placeholder="Сумма карго, сум" value="${esc(o.cargo||"")}"><button class="btn ghost" data-c="${esc(o.fid)}">Сохранить</button></div><button class="btn ghost" data-del-order="${esc(o.fid)}" style="margin-top:8px;color:var(--red)">Удалить заказ</button>`
        :`${stepper(o)}<span class="st ${s[1]}">${s[0]}</span>${cargoNote(o)}`}</div>`;
 }
 function showOrders(quiet){
@@ -413,9 +482,12 @@ function showOrders(quiet){
 }
 function showAdmin(quiet){
   const wait = allOrders.filter(o=>o.status==="waiting").length;
-  modal(`<h2>Все заказы</h2><button class="btn ghost" id="catBtn" style="margin-bottom:10px">📦 Товары из канала</button><p>Ждут подтверждения оплаты: <b>${wait}</b>. Проверьте поступление на карту и смените статус.</p>`+(allOrders.length?allOrders.map(o=>orderCard(o,true)).join(""):'<p>Заказов пока нет.</p>'), quiet===true);
+  modal(`<h2>Все заказы</h2><button class="btn ghost" id="catBtn" style="margin-bottom:10px">📦 Товары из канала</button> <button class="btn ghost" id="rvBtn" style="margin-bottom:10px">💬 Отзывы</button><p>Ждут подтверждения оплаты: <b>${wait}</b>. Проверьте поступление на карту и смените статус.</p>`+(allOrders.length?allOrders.map(o=>orderCard(o,true)).join(""):'<p>Заказов пока нет.</p>'), quiet===true);
   view="admin";
   $("catBtn").onclick = showCatalogAdmin;
+  $("rvBtn").onclick = showReviewsAdmin;
+  $("box").querySelectorAll("[data-del-order]").forEach(b => b.onclick = async () => { if(!confirm("Удалить этот заказ? Это нельзя отменить.")) return;
+    try { await deleteDoc(doc(db,"orders",b.dataset.delOrder)); toast("Заказ удалён ✓"); } catch(e){ console.error(e); toast("Не удалось удалить заказ"); } });
   $("box").querySelectorAll("[data-c]").forEach(b => b.onclick = async () => { const v = Number(b.parentNode.querySelector(".cin").value) || 0;
     try { await updateDoc(doc(db,"orders",b.dataset.c),{cargo:v}); toast("Сумма карго сохранена ✓"); } catch(e){ console.error(e); toast("Не удалось сохранить"); } });
   $("box").querySelectorAll(".sel").forEach(el=>el.onchange=async()=>{
@@ -426,49 +498,87 @@ function showAdmin(quiet){
 
 /* ---------- корзина ---------- */
 function sub(){ return Object.keys(cart).reduce((s,i)=>s+(PBY[i]?PBY[i].price*cart[i]:0),0); }
-function disc(){ const pct = Math.min(50,(CFG.bonusPercent>0 && sub()>=CFG.bonusFrom ? CFG.bonusPercent : 0) + (promo.pct||0)); return Math.round(sub()*pct/100); }
+const promoOn = () => promo.pct > 0 && !(CFG.promoFirstOrder && session && ordersLoaded && orders.length > 0);
+function disc(){ const b = CFG.bonusPercent>0 && sub()>=CFG.bonusFrom ? CFG.bonusPercent : 0; const pct = Math.min(50, Math.max(b, promoOn() ? promo.pct : 0)); return Math.round(sub()*pct/100); }
 function total(){ return sub()-disc(); }
+
+function applyPromo(raw){
+  const c = String(raw||"").trim().toUpperCase();
+  if(!c){ promo = {code:"",pct:0}; store("al_promo",promo); renderCart(); return true; }
+  const pct = (CFG.promos||{})[c];
+  if(!pct) return "Такого промокода нет";
+  if(CFG.promoFirstOrder && session && ordersLoaded && orders.length > 0) return "Промокод действует только на первый заказ";
+  promo = {code:c, pct}; store("al_promo",promo); renderCart(); toast("Промокод применён ✓");
+  return true;
+}
+function renderSaveBox(){
+  const d = disc(), sb = sub();
+  if(d > 0){
+    const pc = Math.round(d / sb * 100);
+    $("cartTop").innerHTML = `<div class="savebox">🎉 <b>Скидка ${pc}%</b>${promoOn() && promo.code ? ` по промокоду <b>${esc(promo.code)}</b>` : ""}<br>Вы экономите <b>${money(d)}</b>
+      <div class="was">Было <s>${money(sb)}</s> → к оплате <b>${money(sb - d)}</b></div></div>`;
+  } else $("cartTop").innerHTML = "";
+}
+function updatePromoBar(){
+  const bar = $("promoBar"), code = Object.keys(CFG.promos||{})[0];
+  if(!code){ bar.classList.remove("on"); $("heroPromo").classList.remove("on"); return; }
+  const pct = CFG.promos[code], used = !!(CFG.promoFirstOrder && session && ordersLoaded && orders.length > 0);
+  document.querySelectorAll(".pcode").forEach(e => e.textContent = code); document.querySelectorAll(".ppct").forEach(e => e.textContent = pct);
+  bar.classList.toggle("on", !used); $("heroPromo").classList.toggle("on", !used);
+  if(used) return;
+  const applied = promo.code === code && promoOn(), d = disc();
+  $("heroPromo").innerHTML = `🎁 Скидка <b>${pct}%</b> на первый заказ · промокод <b>${esc(code)}</b>`;
+  if(applied){
+    $("pbt").innerHTML = d > 0 ? `✅ Промокод <b>${esc(code)}</b> применён — скидка ${pct}%. Вы экономите <b>${money(d)}</b>` : `✅ Промокод <b>${esc(code)}</b> применён — скидка ${pct}% на ваш первый заказ`;
+    $("pbb").textContent = "Корзина →"; $("pbb").onclick = openCart;
+  } else {
+    $("pbt").innerHTML = `🎁 Скидка <b>${pct}%</b> на первый заказ — промокод <b>${esc(code)}</b>`;
+    $("pbb").textContent = "Применить"; $("pbb").onclick = () => { const r = applyPromo(code); if(r !== true) toast(r); };
+  }
+}
+
 function renderCart(){
   store("al_cart",cart);
   const ids = Object.keys(cart).filter(i=>cart[i]>0&&PBY[i]);
-  $("cnt").textContent = ids.reduce((s,i)=>s+cart[i],0);
+  const cntN = ids.reduce((s,i)=>s+cart[i],0); $("cnt").textContent = cntN; $("cbn").textContent = cntN; $("cbs").textContent = money(total()); $("cartBar").classList.toggle("show", cntN > 0); $("cbsv").textContent = disc() > 0 ? "(−" + money(disc()) + ")" : ""; renderSaveBox(); updatePromoBar();
   if(!ids.length){ $("items").innerHTML='<div class="empty">🛒<br>Корзина пока пуста</div>'; $("foot").innerHTML=""; return; }
   $("items").innerHTML = ids.map(i=>{const p=PBY[i];return `<div class="it"><div class="t">${pic(p)}</div><div class="n"><b>${esc(p.name)}</b><small>${money(p.price)}</small></div>
   <div class="q"><button data-d="-1" data-i="${i}">−</button><span>${cart[i]}</span><button data-d="1" data-i="${i}">+</button></div></div>`;}).join("");
   $("items").querySelectorAll(".q button").forEach(b=>b.onclick=()=>{cart[b.dataset.i]+=+b.dataset.d;if(cart[b.dataset.i]<1)delete cart[b.dataset.i];renderCart();});
   let bonus="";
-  if(CFG.bonusPercent>0){ const s=sub(), pc=Math.min(100,s/CFG.bonusFrom*100);
+  if(CFG.bonusPercent>0 && !promoOn()){ const s=sub(), pc=Math.min(100,s/CFG.bonusFrom*100);
     bonus = `<div class="bonus">${s>=CFG.bonusFrom?`🎉 Вам доступна скидка ${CFG.bonusPercent}%!`:`Добавьте ещё на <b>${money(CFG.bonusFrom-s)}</b> — и получите скидку ${CFG.bonusPercent}%`}</div><div class="prog"><i style="width:${pc}%"></i></div>`; }
-  $("foot").innerHTML = `${bonus}<div class="promo2"><input type="text" id="pc" placeholder="Промокод" value="${esc(promo.code||"")}" autocomplete="off"><button class="btn ghost" id="pa">Применить</button></div><div class="err" id="pe"></div>${disc()?`<div class="tot" style="font-weight:500;font-size:.95rem"><span>Скидка</span><span>−${money(disc())}</span></div>`:""}
+  $("foot").innerHTML = `${bonus}<div class="promo2"><input type="text" id="pc" placeholder="Промокод" value="${esc(promo.code||"")}" autocomplete="off"><button class="btn ghost" id="pa">Применить</button></div><div class="err" id="pe">${promo.code && !promoOn() ? "Промокод действует только на первый заказ" : ""}</div>${disc()?`<div class="tot" style="font-weight:500;font-size:.95rem"><span>Скидка</span><span>−${money(disc())}</span></div>`:""}
   <div class="tot"><span>Итого</span><span>${money(total())}</span></div>
-  <p class="mini">⏱ Срок доставки около 20 дней. Карго (по весу) оплачивается отдельно — мы сообщим сумму.</p>
+  <p class="mini">⏱ Срок доставки до 20 дней. Карго (по весу) оплачивается отдельно — мы сообщим сумму.</p>
   <button class="btn red full" id="checkout">Оформить заказ</button>`;
-  $("pa").onclick = () => { const c = $("pc").value.trim().toUpperCase();
-    if(!c){ promo = {code:"",pct:0}; store("al_promo",promo); return renderCart(); }
-    const pct = (CFG.promos||{})[c]; if(!pct){ $("pe").textContent = "Такого промокода нет"; return; }
-    promo = {code:c,pct}; store("al_promo",promo); renderCart(); toast("Промокод применён ✓"); };
+  $("pa").onclick = () => { const r = applyPromo($("pc").value); if(r !== true) $("pe").textContent = r; };
   $("checkout").onclick = () => { closeCart(); setTimeout(()=>{ if(session) payForm(); else { authForm(payForm); toast("Войдите или зарегистрируйтесь, чтобы оформить заказ"); } },300); };
 }
-function openCart(){ $("cart").classList.add("open"); $("shade").classList.add("open"); }
-function closeCart(){ $("cart").classList.remove("open"); $("shade").classList.remove("open"); }
-$("cartBtn").onclick=openCart; $("closeCart").onclick=closeCart; $("shade").onclick=closeCart;
+function openCart(){ $("cart").classList.add("open"); $("shade").classList.add("open"); document.body.classList.add("cartopen"); }
+function closeCart(){ $("cart").classList.remove("open"); $("shade").classList.remove("open"); document.body.classList.remove("cartopen"); }
+$("cartBtn").onclick=openCart; $("cartBar").onclick=openCart; $("closeCart").onclick=closeCart; $("shade").onclick=closeCart;
 
 /* ---------- оплата ---------- */
 function payForm(){
   if(!Object.keys(cart).length) return;
-  modal(`<h2>Оплата заказа</h2><p>Сумма к оплате сейчас: <b>${money(total())}</b></p>
+  modal(`<h2>Оплата заказа</h2><p>Сумма к оплате сейчас: ${disc() ? `<s style="color:var(--muted)">${money(sub())}</s> ` : ""}<b>${money(total())}</b>${disc() ? ` <span class="chipsave">−${money(disc())}</span>` : ""}</p>
   <input type="tel" id="ph" placeholder="Телефон для связи: +998 90 123 45 67">
   <div class="pickup">📍 <b>Пункт выдачи</b><br>${esc(CFG.pickupPoint)}</div>
   <div class="cardnum"><small>Переведите точную сумму на карту</small><b>${esc(CFG.cardNumber)}</b><small>${esc(CFG.cardOwner)}</small>
   <div style="margin-top:8px"><button class="btn ghost" id="copy">Скопировать номер</button></div></div>
   <div class="notice" style="margin:0 0 6px">${NOTICE}</div>
-  <label class="agree"><input type="checkbox" id="agree"><span>Я ознакомился(ась): срок доставки около 20 дней, карго оплачивается отдельно по весу.</span></label>
+  <label class="agree"><input type="checkbox" id="agree"><span>Я ознакомился(ась): срок доставки до 20 дней, карго оплачивается отдельно по весу.</span></label>
   <div class="err" id="ae"></div><button class="btn red full" id="paid">Я оплатил(а)</button>`);
   $("copy").onclick = async () => { try { await navigator.clipboard.writeText(CFG.cardNumber.replace(/\s/g,"")); toast("Номер карты скопирован ✓"); } catch(e){ toast("Скопируйте номер вручную"); } };
   $("paid").onclick = async () => {
     const phone = $("ph").value.trim(), addr = CFG.pickupPoint;
     if(phone.replace(/\D/g,"").length < 9) return $("ae").textContent="Укажите номер телефона для связи";
     if(!$("agree").checked) return $("ae").textContent="Отметьте, что вы ознакомились с условиями доставки";
+    if(promo.code && CFG.promoFirstOrder){
+      if(!ordersLoaded) return $("ae").textContent = "Проверяем промокод… нажмите ещё раз через секунду";
+      if(orders.length > 0){ promo = {code:"",pct:0}; store("al_promo",promo); renderCart(); toast("Промокод действует только на первый заказ — скидка снята"); payForm(); return; }
+    }
     const lines = Object.keys(cart).filter(i=>PBY[i]).map(i=>({name:PBY[i].name,qty:cart[i],price:PBY[i].price}));
     const o = {uid:session.uid,email:session.email,name:session.name,phone,addr,lines,total:total(),status:"waiting",promo:promo.code||"",code:"AL"+String(Math.floor(100000+Math.random()*900000)),createdAt:serverTimestamp()};
     const btn = $("paid"); btn.disabled = true; btn.textContent = "Сохраняем заказ…";
@@ -481,7 +591,7 @@ function orderMsg(o){
 }
 function waiting(o){
   modal(`<h2>⏳ Ждём подтверждение оплаты</h2><p>Заказ <b>${esc(o.code)}</b> принят. Как только мы увидим поступление <b>${money(o.total)}</b>, заказ будет подтверждён — статус появится в разделе «Заказы».</p>
-  <b>Что будет дальше</b><ul class="tl"><li>Подтверждаем оплату и заказываем товар в Китае</li><li>Доставка занимает около 20 дней</li><li>Мы сообщим вес посылки и сумму карго — вы оплатите её, и товар приедет в Узбекистан</li></ul>
+  <b>Что будет дальше</b><ul class="tl"><li>Подтверждаем оплату и заказываем товар в Китае</li><li>Доставка занимает до 20 дней</li><li>Мы сообщим вес посылки и сумму карго — вы оплатите её, и товар приедет в Узбекистан</li></ul>
   <a class="btn red full" target="_blank" rel="noopener" href="https://t.me/${esc(CFG.telegram)}?text=${encodeURIComponent(orderMsg(o))}">Отправить чек в Telegram</a>
   <button class="btn ghost full" id="mo" style="margin-top:8px">Мои заказы</button>`);
   $("mo").onclick = () => showOrders();
@@ -495,13 +605,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener("click",
   const t=document.querySelector(a.getAttribute("href")); if(t){ e.preventDefault(); t.scrollIntoView({behavior:"smooth",block:"start"}); } }));
 $("sort").onchange = () => { sortBy = $("sort").value; fade(); };
 $("favBtn").onclick = () => { favOnly = !favOnly; saveFav(); fade(); };
-$("tgfab").href = "https://t.me/" + CFG.telegram; $("ftg").href = "https://t.me/" + CFG.telegram;
+$("mtg").href = "https://t.me/" + CFG.telegram; $("ftg").href = "https://t.me/" + CFG.telegram;
+$("menuBtn").onclick = e => { e.stopPropagation(); const o = $("menu").classList.toggle("open"); $("menuBtn").setAttribute("aria-expanded", o); };
+addEventListener("click", e => { if(!e.target.closest(".menuwrap")){ $("menu").classList.remove("open"); $("menuBtn").setAttribute("aria-expanded", false); } });
+$("menu").querySelectorAll("a").forEach(a => a.addEventListener("click", () => $("menu").classList.remove("open")));
 addEventListener("scroll", () => $("up").classList.toggle("show", scrollY > 500), {passive:true});
 $("up").onclick = () => scrollTo({top:0,behavior:"smooth"});
-addEventListener("keydown", e => { if(e.key==="Escape"){ hideModal(); closeCart(); } });
+addEventListener("keydown", e => { if(e.key==="Escape"){ hideModal(); closeCart(); $("menu").classList.remove("open"); } });
 const PHOTO_URL = id => "/.netlify/functions/photo?id=" + encodeURIComponent(id);
-let CATALOG_RAW = [];
+let CATALOG_RAW = [], catalogLoaded = false;
 function applyCatalog(items){
+  catalogLoaded = true;
   CATALOG_RAW = items || [];
   const dyn = CATALOG_RAW.filter(x => x.name && x.price > 0).sort((a,b) => (b.created||0)-(a.created||0)).map(x => ({
     id:"t"+x.id, name:x.name, cat:x.cat||"Разное", price:x.price, old:x.old||0, desc:x.desc||"", tags:x.tags||"", badge:x.badge||"", stock:x.stock||0,
@@ -510,6 +624,54 @@ function applyCatalog(items){
   indexProducts();
   if(cat !== "Все" && !PRODUCTS.some(p => p.cat === cat)) cat = "Все";
   filters(); grid(); renderCart();
+}
+/* ---------- отзывы ---------- */
+const starsHtml = n => "★".repeat(n) + "☆".repeat(5-n);
+const shortName = n => { const a = String(n||"Покупатель").trim().split(/\s+/); return a[0] + (a[1] ? " " + a[1][0] + "." : ""); };
+const byNew = (a,b) => (b.createdAt?.seconds ?? 9e9) - (a.createdAt?.seconds ?? 9e9);
+async function renderReviews(pid, box){
+  box.innerHTML = '<p class="mini">Загружаем отзывы…</p>';
+  let list = [];
+  try { const sn = await getDocs(query(collection(db,"reviews"), where("productId","==",pid))); list = sn.docs.map(d => ({id:d.id, ...d.data()})).sort(byNew); }
+  catch(e){ console.error(e); box.innerHTML = '<p class="mini">Не удалось загрузить отзывы.</p>'; return; }
+  const avg = list.length ? (list.reduce((s,r) => s + r.rating, 0) / list.length).toFixed(1) : "";
+  const mine = !!session && list.some(r => r.uid === session.uid);
+  const form = !session ? '<button class="btn ghost full" id="rvlogin">Войдите, чтобы оставить отзыв</button>'
+    : mine ? '<p class="mini">Вы уже оставили отзыв на этот товар ✓</p>'
+    : `<div class="rvform"><div class="starpick" id="sp">${[1,2,3,4,5].map(v => `<button type="button" data-v="${v}" aria-label="${v} из 5">★</button>`).join("")}</div>
+       <textarea id="rvt" maxlength="500" placeholder="Ваш отзыв о товаре…"></textarea><div class="err" id="rve"></div><button class="btn red full" id="rvsend">Отправить отзыв</button></div>`;
+  box.innerHTML = `<h3 class="rvh">Отзывы${avg ? ` · <span class="stars">★</span> ${avg} (${list.length})` : ""}</h3>`
+    + (list.length ? list.map(r => `<div class="rv"><div class="rvt"><b>${esc(shortName(r.name))}</b> <span class="stars">${starsHtml(r.rating)}</span> <small>${r.createdAt?.toDate ? r.createdAt.toDate().toLocaleDateString("ru-RU") : ""}</small>${isAdmin() ? ` <button class="rvdel" data-rd="${esc(r.id)}">Удалить</button>` : ""}</div><p>${esc(r.text)}</p></div>`).join("") : '<p class="mini">Пока нет отзывов. Будьте первым!</p>')
+    + form;
+  if($("rvlogin")) $("rvlogin").onclick = () => authForm(() => quickView(pid));
+  box.querySelectorAll("[data-rd]").forEach(b => b.onclick = async () => { if(!confirm("Удалить этот отзыв?")) return;
+    try { await deleteDoc(doc(db,"reviews",b.dataset.rd)); toast("Отзыв удалён ✓"); renderReviews(pid, box); } catch(e){ console.error(e); toast("Не удалось удалить"); } });
+  if($("rvsend")){
+    let rating = 0;
+    box.querySelectorAll("#sp button").forEach(b => b.onclick = () => { rating = +b.dataset.v; box.querySelectorAll("#sp button").forEach(x => x.classList.toggle("on", +x.dataset.v <= rating)); });
+    $("rvsend").onclick = async () => {
+      const text = $("rvt").value.trim();
+      if(!rating) return $("rve").textContent = "Поставьте оценку от 1 до 5";
+      if(text.length < 3) return $("rve").textContent = "Напишите хотя бы пару слов";
+      $("rvsend").disabled = true;
+      try { await setDoc(doc(db,"reviews", session.uid + "_" + pid), {productId:pid, productName:(PBY[pid]||{}).name||"", uid:session.uid, name:session.name, rating, text, createdAt:serverTimestamp()});
+        toast("Спасибо за отзыв! ✓"); renderReviews(pid, box); }
+      catch(e){ console.error(e); $("rvsend").disabled = false; $("rve").textContent = "Не удалось отправить отзыв. Попробуйте ещё раз."; }
+    };
+  }
+}
+async function showReviewsAdmin(){
+  modal(`<h2>Отзывы</h2><p class="mini">Загружаем…</p>`);
+  let list = [];
+  try { const sn = await getDocs(collection(db,"reviews")); list = sn.docs.map(d => ({id:d.id, ...d.data()})).sort(byNew); }
+  catch(e){ console.error(e); toast("Не удалось загрузить отзывы"); return; }
+  modal(`<h2>Отзывы (${list.length})</h2>` + (list.length ? list.map(r => `<div class="ord"><b>${esc(r.productName||r.productId)}</b><br><span class="stars">${starsHtml(r.rating)}</span> ${esc(r.name||"")}<br>${esc(r.text)}<br><button class="btn ghost" data-rd="${esc(r.id)}" style="margin-top:6px;color:var(--red)">Удалить</button></div>`).join("") : "<p>Отзывов пока нет.</p>"));
+  $("box").querySelectorAll("[data-rd]").forEach(b => b.onclick = async () => { if(!confirm("Удалить отзыв?")) return;
+    try { await deleteDoc(doc(db,"reviews",b.dataset.rd)); toast("Отзыв удалён ✓"); showReviewsAdmin(); } catch(e){ console.error(e); toast("Не удалось удалить"); } });
+}
+function showSkeleton(){
+  $("found").textContent = "Загружаем товары…";
+  $("grid").innerHTML = Array.from({length:8}, () => '<div class="card sk"><div class="pic"></div><div class="info"><div class="skl"></div><div class="skl s"></div></div></div>').join("");
 }
 function showCatalogAdmin(){
   modal(`<h2>Товары из канала</h2><p>«Удалить» убирает товар с сайта. Не редактируйте потом старый пост в канале — товар вернётся.</p>`+
@@ -522,8 +684,9 @@ let qt;
 $("q").addEventListener("input",()=>{ clearTimeout(qt); $("qx").hidden = !$("q").value;
   qt = setTimeout(()=>{ const had = term.length>0; term = tokens($("q").value); if(term.length && !had) $("shop").scrollIntoView({behavior:"smooth",block:"start"}); $("grid").classList.add("out"); setTimeout(()=>{ grid(); $("grid").classList.remove("out"); },200); },250); });
 $("qx").onclick = () => { $("q").value=""; $("q").dispatchEvent(new Event("input")); $("q").focus(); };
-saveFav(); filters(); grid(); renderAuth(); renderCart();
-onSnapshot(doc(db,"meta","catalog"), snap => applyCatalog(snap.exists() ? snap.data().items : []), e => console.error("catalog",e));
+saveFav(); showSkeleton(); renderAuth(); renderCart();
+setTimeout(() => { if(!catalogLoaded){ catalogLoaded = true; filters(); grid(); } }, 6000);
+onSnapshot(doc(db,"meta","catalog"), snap => applyCatalog(snap.exists() ? snap.data().items : []), e => { console.error("catalog",e); catalogLoaded = true; filters(); grid(); });
 </script>
 </body>
 </html>
